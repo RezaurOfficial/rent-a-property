@@ -1,0 +1,41 @@
+h1 {
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.row {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.info h3 {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.location {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+
+.details {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

@@ -1,0 +1,40 @@
+<h1>My Rentals</h1>
+
+@if (error()) {
+  <p class="alert alert-error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="hint">Loading your rentals…</p>
+} @else if (rows().length === 0) {
+  <p class="hint">You have no rentals yet.</p>
+} @else {
+  <div class="list">
+    @for (row of rows(); track row.rental.id) {
+      <div class="row">
+        <div class="info">
+          <h3>{{ row.property?.title ?? 'Property #' + row.rental.propertyId }}</h3>
+          @if (row.property) {
+            <p class="location">{{ row.property.address }}, {{ row.property.city }}</p>
+          }
+          <p class="details">
+            Started {{ row.rental.startDate }}
+            <span class="badge" [class.badge-active]="row.rental.status === 'ACTIVE'">
+              {{ row.rental.status }}
+            </span>
+          </p>
+        </div>
+        @if (row.rental.status === 'ACTIVE') {
+          <button
+            type="button"
+            class="btn btn-danger"
+            [disabled]="cancellingId() === row.rental.id"
+            (click)="cancel(row.rental)"
+          >
+            {{ cancellingId() === row.rental.id ? 'Cancelling…' : 'Cancel' }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

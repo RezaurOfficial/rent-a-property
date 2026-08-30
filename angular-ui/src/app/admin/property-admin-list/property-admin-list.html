@@ -1,0 +1,52 @@
+<div class="header">
+  <h1>Manage Properties</h1>
+  <a class="btn btn-primary" routerLink="/admin/properties/new">Add property</a>
+</div>
+
+@if (error()) {
+  <p class="alert alert-error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="hint">Loading properties…</p>
+} @else if (properties().length === 0) {
+  <p class="hint">No properties yet.</p>
+} @else {
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>City</th>
+          <th>Price / month</th>
+          <th>Bedrooms</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (property of properties(); track property.id) {
+          <tr>
+            <td>{{ property.title }}</td>
+            <td>{{ property.city }}</td>
+            <td>{{ property.pricePerMonth }}</td>
+            <td>{{ property.bedrooms }}</td>
+            <td>
+              <span class="badge" [class.badge-available]="property.status === 'AVAILABLE'">
+                {{ property.status }}
+              </span>
+            </td>
+            <td class="actions">
+              <a class="btn btn-ghost" [routerLink]="['/admin/properties', property.id, 'edit']">
+                Edit
+              </a>
+              <button type="button" class="btn btn-danger" (click)="remove(property)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

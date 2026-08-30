@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <a class="brand" routerLink="/">Rent A Property</a>
+
+  <div class="links">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      Properties
+    </a>
+    @if (auth.authenticated()) {
+      @if (auth.isAdmin()) {
+        <a routerLink="/admin/properties" routerLinkActive="active">Manage Properties</a>
+        <a routerLink="/admin/rentals" routerLinkActive="active">All Rentals</a>
+      } @else {
+        <a routerLink="/my-rentals" routerLinkActive="active">My Rentals</a>
+      }
+    }
+  </div>
+
+  <div class="actions">
+    @if (auth.authenticated()) {
+      <span class="username">{{ auth.displayName() }}</span>
+      <button type="button" class="btn btn-ghost" (click)="auth.logout()">Logout</button>
+    } @else {
+      <button type="button" class="btn btn-ghost" (click)="auth.login()">Login</button>
+      <a class="btn btn-primary" routerLink="/register">Register</a>
+    }
+  </div>
+</nav>

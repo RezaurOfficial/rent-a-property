@@ -1,0 +1,44 @@
+<h1>All Rentals</h1>
+
+@if (error()) {
+  <p class="alert alert-error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="hint">Loading rentals…</p>
+} @else if (rows().length === 0) {
+  <p class="hint">No rentals yet.</p>
+} @else {
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Renter</th>
+          <th>Started</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows(); track row.rental.id) {
+          <tr>
+            <td>{{ row.property?.title ?? 'Property #' + row.rental.propertyId }}</td>
+            <td>
+              @if (row.user) {
+                {{ row.user.firstName }} {{ row.user.lastName }} ({{ row.user.email }})
+              } @else {
+                {{ row.rental.userId }}
+              }
+            </td>
+            <td>{{ row.rental.startDate }}</td>
+            <td>
+              <span class="badge" [class.badge-active]="row.rental.status === 'ACTIVE'">
+                {{ row.rental.status }}
+              </span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

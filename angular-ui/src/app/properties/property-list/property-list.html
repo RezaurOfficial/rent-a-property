@@ -1,0 +1,43 @@
+<h1>Available Properties</h1>
+
+@if (message()) {
+  <p class="alert alert-success">{{ message() }}</p>
+}
+@if (error()) {
+  <p class="alert alert-error">{{ error() }}</p>
+}
+
+@if (loading()) {
+  <p class="hint">Loading properties…</p>
+} @else if (properties().length === 0) {
+  <p class="hint">No properties found.</p>
+} @else {
+  <div class="grid">
+    @for (property of properties(); track property.id) {
+      <div class="card">
+        <div class="card-header">
+          <h3>{{ property.title }}</h3>
+          <span class="badge" [class.badge-available]="property.status === 'AVAILABLE'">
+            {{ property.status }}
+          </span>
+        </div>
+        <p class="location">{{ property.address }}, {{ property.city }}</p>
+        <p class="description">{{ property.description }}</p>
+        <div class="meta">
+          <span class="price">{{ property.pricePerMonth | number: '1.0-2' }} / month</span>
+          <span class="bedrooms">{{ property.bedrooms }} bd</span>
+        </div>
+        @if (auth.authenticated() && !auth.isAdmin() && property.status === 'AVAILABLE') {
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="pendingId() === property.id"
+            (click)="rent(property)"
+          >
+            {{ pendingId() === property.id ? 'Renting…' : 'Rent' }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

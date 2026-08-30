@@ -1,0 +1,70 @@
+<div class="form-page">
+  <h1>{{ editing() ? 'Edit Property' : 'Add Property' }}</h1>
+
+  @if (error()) {
+    <p class="alert alert-error">{{ error() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="hint">Loading property…</p>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-field">
+        <label for="title">Title</label>
+        <input id="title" type="text" formControlName="title" />
+        @if (form.controls.title.touched && form.controls.title.invalid) {
+          <span class="field-error">Title is required.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" formControlName="description"></textarea>
+        @if (form.controls.description.touched && form.controls.description.invalid) {
+          <span class="field-error">Description is required.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="address">Address</label>
+        <input id="address" type="text" formControlName="address" />
+        @if (form.controls.address.touched && form.controls.address.invalid) {
+          <span class="field-error">Address is required.</span>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="city">City</label>
+        <input id="city" type="text" formControlName="city" />
+        @if (form.controls.city.touched && form.controls.city.invalid) {
+          <span class="field-error">City is required.</span>
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="pricePerMonth">Price / month</label>
+          <input id="pricePerMonth" type="number" min="0" formControlName="pricePerMonth" />
+          @if (form.controls.pricePerMonth.touched && form.controls.pricePerMonth.invalid) {
+            <span class="field-error">Enter a valid price.</span>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="bedrooms">Bedrooms</label>
+          <input id="bedrooms" type="number" min="0" formControlName="bedrooms" />
+          @if (form.controls.bedrooms.touched && form.controls.bedrooms.invalid) {
+            <span class="field-error">Enter a valid number of bedrooms.</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="saving()">
+          {{ saving() ? 'Saving…' : editing() ? 'Save changes' : 'Create property' }}
+        </button>
+        <a class="btn btn-ghost" routerLink="/admin/properties">Cancel</a>
+      </div>
+    </form>
+  }
+</div>
